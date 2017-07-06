@@ -9,11 +9,15 @@ var validator = {
         }
         types.forEach((type) => {
             this._validateFunc[type.name] = (...theArgs) => {
-                return (value) => {
-                    return type.apply({
-                        value: value
-                    }, theArgs)
-                };
+                
+                return {
+                    name: type.name,
+                    validate: (value) => {
+                        return type.apply({
+                            value: value
+                        }, theArgs)
+                    }
+                }        
             };
         });
     },
@@ -28,13 +32,16 @@ var validator = {
 
         if (typeof(data) === 'object') {
             for (i in data) {
+                if (typeof data[i] === 'object'){
+                    this.validate(data[i]);
+                }
                 if (data.hasOwnProperty(i)) {
                     checkers = this.config[i];
                     checkers.forEach((checker) => {
 
-                        result_ok = checker(data[i]);
+                        result_ok = checker.validate(data[i]);
                         if (!result_ok) {
-                            msg = "Invalid value for *" + i + "*, " + checker.instructions;
+                            msg = "Invalid value for *" + i + "*, " + checker.name;
                             this.messages.push(msg);
                         }
 
@@ -47,8 +54,8 @@ var validator = {
     },
     noErrors: function() {
         return this.messages.length === 0;
-    }
-    getErros: function() {
+    },
+    getErrors: function() {
         return this.messages;
     }
 }
