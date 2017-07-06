@@ -8,9 +8,10 @@ function isBoolean() {
     return (typeof this.value === "boolean") ? true : false;
 }
 
-function requireNumberInRange(max,min){
+function requireNumberInRange(min,max){
+
     const field = this.value;
-    if (typeof field !== 'number' || isNaN(field)) {
+    if (typeof field !== 'number') {
         return false;
     }
     if (isNaN(min) || field < min) {
@@ -19,6 +20,7 @@ function requireNumberInRange(max,min){
     if (isNaN(max) || field > max) {
         return false;
     }
+    return true;
 }
 
 validator.initValidate([

@@ -1,6 +1,6 @@
-    debugger;
+debugger;
 var chai = require('chai');
-var expect = chai.expect;
+const assert = chai.assert;
 
 require('./validate');
 var validator = require('../src/validator');
@@ -16,19 +16,20 @@ describe('UNIT:validator.js -- Test validator', () => {
 
         var testObj = {
             name: undefined,
-            age: 25,
+            isLiked: true,
         };
 
         validator.config = {
             name: [requireValue()],
-            age: [requireValue()],
+            isLiked: [isBoolean()],
         }
 
         var result = validator.validate(testObj);
-        expect(result).to.equal(false);
+        assert.isFalse(result.isSuccess);
+        assert.lengthOf(result.errors, 1,'the name should not be empty');
     });
 
-    it('should be false, if the filed of age is incorrectly formate', () => {
+    it('should be true, if the filed of age is correctly formate', () => {
 
         var testObj = {
             age: "25",
@@ -37,12 +38,12 @@ describe('UNIT:validator.js -- Test validator', () => {
         validator.config = {
             age: [
                 requireValue(),
-                isBoolean()
             ],
         }
 
         var result = validator.validate(testObj);
-        expect(result).to.equal(false);
+        assert.isTrue(result.isSuccess);
+        assert.lengthOf(result.errors, 0);
     });
 
 
@@ -55,14 +56,41 @@ describe('UNIT:validator.js -- Test validator', () => {
         validator.config = {
             age: [
                 requireValue(),
-                isBoolean(),
-                requireNumberInRange(10,25)
+                requireNumberInRange(10, 25)
             ],
         }
 
         var result = validator.validate(testObj);
-        console.log(validator.getErrors())
-        expect(result).to.equal(false);
+        assert.isFalse(result.isSuccess);
+        assert.lengthOf(result.errors, 1,'the age should not more than 25');
     });
-    
+
+    it('should be false, if the nest filed of count is incorrectly formate', () => {
+
+        var testObj = {
+            people: {
+                name: "Mark",
+                age: 15,
+            },
+            count: 50
+        };
+
+        validator.config = {
+            people: {
+                name: [requireValue()],
+                age: [
+                    requireValue(),
+                    requireNumberInRange(10, 25),
+                ]
+            },
+            count: [
+                requireNumberInRange(0, 25)
+            ],
+        }
+
+        var result = validator.validate(testObj);
+        assert.isFalse(result.isSuccess);
+        assert.lengthOf(result.errors, 1,'the count should not more than 25');
+    });
+
 });

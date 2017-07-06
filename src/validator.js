@@ -3,13 +3,13 @@ var validator = {
     _validateFunc: {},
     messages: [],
     config: {},
-    initValidate: function(types, opt) {
+    initValidate: function (types, opt) {
         if (!Array.isArray(types)) {
             throw 'Init Error';
         }
         types.forEach((type) => {
             this._validateFunc[type.name] = (...theArgs) => {
-                
+
                 return {
                     name: type.name,
                     validate: (value) => {
@@ -17,26 +17,36 @@ var validator = {
                             value: value
                         }, theArgs)
                     }
-                }        
+                }
             };
         });
     },
-    exportFunc: function() {
+    exportFunc: function () {
         return this._validateFunc;
     },
 
-    validate: function(data) {
+    validate: function (data) {
         var i, msg, type, result_ok;
         let checkers = null;
-        this.messages = [];
+        this._validate(data,this.config);
+        const temp_messages = Array.from(this.messages);
+        this.messages.length = 0;
+        return {
+            isSuccess: temp_messages.length === 0,
+            errors: temp_messages,
+        }
+        
+    },
+    _validate: function(data,config){
 
-        if (typeof(data) === 'object') {
+        if (typeof (data) === 'object') {
             for (i in data) {
-                if (typeof data[i] === 'object'){
-                    this.validate(data[i]);
+                if (typeof data[i] === 'object') {
+                    this._validate(data[i],config[i]);
                 }
                 if (data.hasOwnProperty(i)) {
-                    checkers = this.config[i];
+                    checkers = config[i];
+
                     checkers.forEach((checker) => {
 
                         result_ok = checker.validate(data[i]);
@@ -50,13 +60,6 @@ var validator = {
             }
         }
 
-        return this.noErrors();
-    },
-    noErrors: function() {
-        return this.messages.length === 0;
-    },
-    getErrors: function() {
-        return this.messages;
     }
 }
 
