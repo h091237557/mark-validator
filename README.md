@@ -49,7 +49,7 @@ You can choose the custom function or the plugin function.
 > There have a import point. the first parameter of custom function should be "value".
 
 ```
-const validator = require('../src/validator');
+const validator = require('mark-lin-validator');
 
 function requireValue(value) {
     return !!(value);
@@ -88,7 +88,7 @@ You can choose plugin which you want to use. In the example, we use the [chriso/
 const {
     isEmail,
 } = require('validator');
-const validator = require('../src/validator');
+const validator = require('mark-lin-validator');
 
 
 validator.initValidate([
@@ -99,8 +99,8 @@ validator.initValidate([
 ### Step3. Use ! .
 
 ```
-require('./custom-validate');
-const validator = require('../src/validator');
+require('./custom-validate'); // It is your xecuting initValidate method file.
+const validator = require('mark-lin-validator');
 
 const {
     requireValue,
