@@ -1,69 +1,62 @@
-var validator = {
+const validator = {
     _validateFunc: {},
     errors: [],
     config: {},
-    initValidate: function (types, opt) {
+    initValidate(types) {
         if (!Array.isArray(types)) {
-            throw 'Init Error';
+            throw new Error('Init Error');
         }
         types.forEach((type) => {
-            this._validateFunc[type.name] = (...theArgs) => {
-                return {
-                    name: type.name,
-                    validate: (value) => {
-                        return type.apply({
-                            value: value
-                        }, theArgs)
-                    }
-                }
-            };
+            this._validateFunc[type.name] = (...theArgs) => ({
+                name: type.name,
+                validate: value => type.apply({
+                    value,
+                }, theArgs),
+            });
         });
     },
-    exportFunc: function () {
+    exportFunc() {
         return this._validateFunc;
     },
 
-    validate: function (data) {
-        let checkers = null;
+    validate(data) {
         this._validate(data, this.config);
-        const temp_errors = Array.from(this.errors);
+        const tempErrors = Array.from(this.errors);
         this.errors.length = 0;
         return {
-            isSuccess: temp_errors.length === 0,
-            errors: temp_errors,
-        }
-
+            isSuccess: tempErrors.length === 0,
+            errors: tempErrors,
+        };
     },
-    _validate: function (data, config, parent) {
+    _validate(data, config, parent) {
         let result = null;
-        let msg;
+        let checkers;
+
         if (typeof (data) === 'object') {
-            for (i in data) {
-                const field = (parent) ? `${parent}.${i}` : `${i}`;
-                if (typeof data[i] === 'object') {
-                    this._validate(data[i], config[i], field);
+            const keys = Object.keys(data);
+            keys.forEach((key) => {
+                const field = (parent) ? `${parent}.${key}` : `${key}`;
+                if (typeof data[key] === 'object') {
+                    this._validate(data[key], config[key], field);
+                    return;
                 }
-                if (data.hasOwnProperty(i)) {
-                    checkers = config[i];
+                if (Object.prototype.hasOwnProperty.call(data, key)) {
+                    checkers = config[key];
 
-                    checkers.forEach((checker) => {
-
-                        result = checker.validate(data[i]);
+                    checkers.forEach((checker) => { // eslint-disable-line no-loop-func
+                        result = checker.validate(data[key]);
                         if (!result) {
-
                             this.errors.push({
                                 msg: `Invalid value for *${field}*, ${checker.name}`,
                                 checkerName: `${checker.name}`,
-                                checkTarget: `${field}`
+                                checkTarget: `${field}`,
                             });
                         }
-
                     });
                 }
-            }
+            });
         }
-
-    }
-}
+    },
+};
 
 module.exports = validator;

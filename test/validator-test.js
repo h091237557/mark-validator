@@ -1,9 +1,11 @@
-debugger;
-var chai = require('chai');
+
+const chai = require('chai');
+
 const assert = chai.assert;
 
 require('./validate');
-var validator = require('../src/validator');
+const validator = require('../src/validator');
+
 const {
     requireValue,
     isBoolean,
@@ -11,10 +13,8 @@ const {
 } = validator.exportFunc();
 
 describe('UNIT:validator.js -- Test validator', () => {
-
     it('Test simple object and one field value is empty', () => {
-
-        var testObj = {
+        const testObj = {
             name: undefined,
             isLiked: true,
         };
@@ -22,57 +22,54 @@ describe('UNIT:validator.js -- Test validator', () => {
         validator.config = {
             name: [requireValue()],
             isLiked: [isBoolean()],
-        }
+        };
 
-        var result = validator.validate(testObj);
+        const result = validator.validate(testObj);
         assert.isFalse(result.isSuccess);
-        assert.lengthOf(result.errors, 1,'the name should not be empty');
+        assert.lengthOf(result.errors, 1, 'the name should not be empty');
     });
 
     it('should be true, if the filed of age is correctly formate', () => {
-
-        var testObj = {
-            age: "25",
+        const testObj = {
+            age: '5',
         };
 
         validator.config = {
             age: [
                 requireValue(),
             ],
-        }
+        };
 
-        var result = validator.validate(testObj);
+        const result = validator.validate(testObj);
         assert.isTrue(result.isSuccess);
         assert.lengthOf(result.errors, 0);
     });
 
 
     it('should be false, if the filed of age is incorrectly formate', () => {
-
-        var testObj = {
+        const testObj = {
             age: 35,
         };
 
         validator.config = {
             age: [
                 requireValue(),
-                requireNumberInRange(10, 25)
+                requireNumberInRange(10, 25),
             ],
-        }
+        };
 
-        var result = validator.validate(testObj);
+        const result = validator.validate(testObj);
         assert.isFalse(result.isSuccess);
-        assert.lengthOf(result.errors, 1,'the age should not more than 25');
+        assert.lengthOf(result.errors, 1, 'the age should not more than 25');
     });
 
     it('should be false, if the nest filed of count is incorrectly formate', () => {
-
-        var testObj = {
+        const testObj = {
             people: {
-                name: "Mark",
+                name: 'Mark',
                 age: 35,
             },
-            count: 50
+            count: 50,
         };
 
         validator.config = {
@@ -81,17 +78,15 @@ describe('UNIT:validator.js -- Test validator', () => {
                 age: [
                     requireValue(),
                     requireNumberInRange(10, 25),
-                ]
+                ],
             },
             count: [
-                requireNumberInRange(0, 25)
+                requireNumberInRange(0, 25),
             ],
-        }
+        };
 
-        var result = validator.validate(testObj);
-        console.log(result.errors);
+        const result = validator.validate(testObj);
         assert.isFalse(result.isSuccess);
         assert.lengthOf(result.errors, 2);
     });
-
 });
