@@ -1,6 +1,33 @@
 # mark-validator
 
-This libary is a validator manager.
+This libary is a validator manager. it helps us to validate json easy. like the code below.
+There have two advantage. First, you can validate nest object. Second, you can custom the validate function which 
+come from plugin or yourself.
+```
+        const testObj = {
+            people: {
+                name: 'Mark',
+                age: 35,
+            },
+            count: 50,
+        };
+
+        validator.config = {
+            people: {
+                name: [requireValue()],
+                age: [
+                    requireValue(),
+                    requireNumberInRange(10, 25),
+                ],
+            },
+            count: [
+                requireNumberInRange(0, 25),
+            ],
+        };
+
+        const result = validator.validate(testObj);
+
+```
 
 ## How to use ? 
 
@@ -10,7 +37,7 @@ This libary is a validator manager.
 npm install mark-lin-validator
 ```
 
-### Step2. Creating the validate and Initting the validate.
+### Step2. Creating the validate and Executing initValidate method.
 
 You can choose the custom function or the plugin function.
 
