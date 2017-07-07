@@ -2,10 +2,16 @@
   "name": "mark-validator",
   "version": "1.0.0",
   "description": "",
+  "author": "Mark Lin <h091237557@gmail.com>",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
+   "keywords": [
+    "validator",
+    "validation",
+    "validate"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,14 +25,12 @@
     "url": "https://github.com/h091237557/mark-validator/issues"
   },
   "homepage": "https://github.com/h091237557/mark-validator#readme",
-  "dependencies": {
-    "validator": "^7.2.0"
-  },
   "devDependencies": {
     "chai": "^4.0.2",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.2.0",
-    "mocha": "^3.4.2"
+    "mocha": "^3.4.2",
+    "validator": "^7.2.0"
   }
 }
