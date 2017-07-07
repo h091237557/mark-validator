@@ -9,9 +9,10 @@ const validator = {
         types.forEach((type) => {
             this._validateFunc[type.name] = (...theArgs) => ({
                 name: type.name,
-                validate: value => type.apply({
-                    value,
-                }, theArgs),
+                validate: (value) => {
+                    theArgs.unshift(value);
+                    return type.apply({}, theArgs);
+                },
             });
         });
     },

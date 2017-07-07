@@ -1,15 +1,15 @@
 const validator = require('../src/validator');
 
-function requireValue() {
-    return !!(this.value);
+function requireValue(value) {
+    return !!(value);
 }
 
-function isBoolean() {
-    return (typeof this.value === 'boolean');
+function isBoolean(value) {
+    return (typeof value === 'boolean');
 }
 
-function requireNumberInRange(min, max) {
-    const field = this.value;
+function requireNumberInRange(value, min, max) {
+    const field = value;
     if (typeof field !== 'number') {
         return false;
     }
