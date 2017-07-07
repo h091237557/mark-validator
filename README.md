@@ -1,8 +1,11 @@
 # mark-validator
 
 This libary is a validator manager. it helps us to validate json easy. like the code below.
-There have two advantage. First, you can validate nest object. Second, you can custom the validate function which 
-come from plugin or yourself.
+
+There have two advantage.
+*  First, you can validate nest object
+*  Second, you can custom the validate function which come from plugin or yourself.
+
 ```
         const testObj = {
             people: {
