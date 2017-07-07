@@ -1,7 +1,6 @@
 var validator = {
-    _types: {},
     _validateFunc: {},
-    messages: [],
+    errors: [],
     config: {},
     initValidate: function (types, opt) {
         if (!Array.isArray(types)) {
@@ -9,7 +8,6 @@ var validator = {
         }
         types.forEach((type) => {
             this._validateFunc[type.name] = (...theArgs) => {
-
                 return {
                     name: type.name,
                     validate: (value) => {
@@ -26,33 +24,38 @@ var validator = {
     },
 
     validate: function (data) {
-        var i, msg, type, result_ok;
         let checkers = null;
-        this._validate(data,this.config);
-        const temp_messages = Array.from(this.messages);
-        this.messages.length = 0;
+        this._validate(data, this.config);
+        const temp_errors = Array.from(this.errors);
+        this.errors.length = 0;
         return {
-            isSuccess: temp_messages.length === 0,
-            errors: temp_messages,
+            isSuccess: temp_errors.length === 0,
+            errors: temp_errors,
         }
-        
-    },
-    _validate: function(data,config){
 
+    },
+    _validate: function (data, config, parent) {
+        let result = null;
+        let msg;
         if (typeof (data) === 'object') {
             for (i in data) {
+                const field = (parent) ? `${parent}.${i}` : `${i}`;
                 if (typeof data[i] === 'object') {
-                    this._validate(data[i],config[i]);
+                    this._validate(data[i], config[i], field);
                 }
                 if (data.hasOwnProperty(i)) {
                     checkers = config[i];
 
                     checkers.forEach((checker) => {
 
-                        result_ok = checker.validate(data[i]);
-                        if (!result_ok) {
-                            msg = "Invalid value for *" + i + "*, " + checker.name;
-                            this.messages.push(msg);
+                        result = checker.validate(data[i]);
+                        if (!result) {
+
+                            this.errors.push({
+                                msg: `Invalid value for *${field}*, ${checker.name}`,
+                                checkerName: `${checker.name}`,
+                                checkTarget: `${field}`
+                            });
                         }
 
                     });

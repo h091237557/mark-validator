@@ -70,7 +70,7 @@ describe('UNIT:validator.js -- Test validator', () => {
         var testObj = {
             people: {
                 name: "Mark",
-                age: 15,
+                age: 35,
             },
             count: 50
         };
@@ -89,8 +89,9 @@ describe('UNIT:validator.js -- Test validator', () => {
         }
 
         var result = validator.validate(testObj);
+        console.log(result.errors);
         assert.isFalse(result.isSuccess);
-        assert.lengthOf(result.errors, 1,'the count should not more than 25');
+        assert.lengthOf(result.errors, 2);
     });
 
 });
