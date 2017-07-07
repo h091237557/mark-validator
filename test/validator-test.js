@@ -3,7 +3,7 @@ const chai = require('chai');
 
 const assert = chai.assert;
 
-require('./validate');
+require('./custom-validate');
 const validator = require('../src/validator');
 
 const {
