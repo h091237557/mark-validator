@@ -40,9 +40,9 @@ There have two advantage.
 npm install mark-lin-validator
 ```
 
-### Step2. Creating the validate and Executing initValidate method.
+### Step2. Creating the validates and Executing initValidate method.
 
-You can choose the custom function or the plugin function.
+You can choose  custom validate functions or  plugin functions.
 
 #### custom validate function
 
