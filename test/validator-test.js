@@ -4,7 +4,7 @@ const chai = require('chai');
 const assert = chai.assert;
 
 require('./custom-validate');
-const validator = require('../src/validator');
+const validator = require('../index');
 
 const {
     requireValue,

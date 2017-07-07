@@ -1,4 +1,4 @@
-const validator = require('../src/validator');
+const validator = require('../index');
 
 function requireValue(value) {
     return !!(value);

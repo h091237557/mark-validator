@@ -5,7 +5,7 @@
   "author": "Mark Lin <h091237557@gmail.com>",
   "main": "index.js",
   "directories": {
-    "test": "./src/validator.js"
+    "test": ""
   },
    "keywords": [
     "validator",
