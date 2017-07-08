@@ -46,7 +46,7 @@ You can choose  custom validate functions or  plugin functions.
 
 #### custom validate function
 
-> There have a import point. the first parameter of custom function should be "value".
+> There have a import point. the first parameter of custom function should be "you want to validate value".
 
 ```
 const validator = require('mark-lin-validator');
@@ -99,7 +99,7 @@ validator.initValidate([
 ### Step3. Use ! .
 
 ```
-require('./custom-validate'); // It is your xecuting initValidate method file.
+require('./custom-validate'); // It is your excuting initValidate method file.
 const validator = require('mark-lin-validator');
 
 const {
