@@ -36,8 +36,8 @@ There have two advantage.
 ```
 
 * [How to Use](https://github.com/h091237557/mark-validator#how-to-use-)
-* [Nest Object Validate]()
-* [Array Object Validate]()
+* [Nest Object Validate](https://github.com/h091237557/mark-validator#nest-object-validate)
+* [Array Object Validate](https://github.com/h091237557/mark-validator#array-object-validate)
 
 
 ## How to use ? 
