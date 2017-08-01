@@ -1,5 +1,8 @@
 # mark-validator
 
+
+
+
 This libary is a validator manager. it helps us to validate json easy. like the code below.
 
 There have two advantage.
@@ -31,6 +34,11 @@ There have two advantage.
         const result = validator.validate(testObj);
 
 ```
+
+* [How to Use](https://github.com/h091237557/mark-validator#how-to-use-)
+* [Nest Object Validate]()
+* [Array Object Validate]()
+
 
 ## How to use ? 
 
@@ -149,5 +157,71 @@ Result Object
     ]
 
 }
+```
+## Nest Object Validate
+If you want to validate the nest object, following the code below. 
 
 ```
+        const testObj = {
+            people: {
+                name: 'Mark',
+                age: 35,
+            },
+            count: 50,
+        };
+
+        validator.config = {
+            people: {
+                name: [requireValue()],
+                age: [
+                    requireValue(),
+                    requireNumberInRange(10, 25),
+                ],
+            },
+            count: [
+                requireNumberInRange(0, 25),
+            ],
+        };
+
+```
+
+## Array Object Validate
+If you want to validate the object of array, following the code below. The field of data includes two objects. if you want to validate the array (!!!). you can follow to like the code below. the `requireValue` is the valiator's function of array. and the last of the object is not. it is the object of array validator.   
+
+```
+       const testObj = {
+            author: 'Mark',
+            data: [
+                {
+                    id: 1,
+                    author: 'mark',
+                },
+                {
+                    id: '2',
+                    author: 'lin',
+                },
+            ],
+            describe: 'Test',
+        };
+
+        validator.config = {
+            author: [
+                requireValue(),
+            ],
+            data: [
+                requireValue(),   // validate the array.
+                {  // validate the object of array.
+                    id: [
+                        requireValue(),
+                        requireNumber(),
+                    ],
+                    author: [requireValue()],
+                },
+            ],
+            describe: [
+                requireValue(),
+            ],
+        };
+```
+
+
