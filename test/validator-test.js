@@ -10,6 +10,7 @@ const {
     requireValue,
     isBoolean,
     requireNumberInRange,
+    requireNumber,
 } = validator.exportFunc();
 
 describe('UNIT:validator.js -- Test validator', () => {
@@ -29,7 +30,7 @@ describe('UNIT:validator.js -- Test validator', () => {
         assert.lengthOf(result.errors, 1, 'the name should not be empty');
     });
 
-    it('should be true, if the filed of age is correctly formate', () => {
+    it('should be true, if the filed of age is correctly formation', () => {
         const testObj = {
             age: '5',
         };
@@ -46,7 +47,7 @@ describe('UNIT:validator.js -- Test validator', () => {
     });
 
 
-    it('should be false, if the filed of age is incorrectly formate', () => {
+    it('should be false, if the filed of age is incorrectly formation ', () => {
         const testObj = {
             age: 35,
         };
@@ -63,7 +64,7 @@ describe('UNIT:validator.js -- Test validator', () => {
         assert.lengthOf(result.errors, 1, 'the age should not more than 25');
     });
 
-    it('should be false, if the nest filed of count is incorrectly formate', () => {
+    it('should be false, if the nest filed of count is incorrectly formation', () => {
         const testObj = {
             people: {
                 name: 'Mark',
@@ -88,5 +89,45 @@ describe('UNIT:validator.js -- Test validator', () => {
         const result = validator.validate(testObj);
         assert.isFalse(result.isSuccess);
         assert.lengthOf(result.errors, 2);
+    });
+    it('should be false, if the object of array is incorrectly formate', () => {
+        const testObj = {
+            author: 'Mark',
+            data: [
+                {
+                    id: 1,
+                    author: 'mark',
+                },
+                {
+                    id: '2',
+                    author: 'lin',
+                },
+            ],
+            describe: 'Test',
+        };
+
+        validator.config = {
+            author: [
+                requireValue(),
+            ],
+            data: [
+                requireValue(),
+                {
+                    id: [
+                        requireValue(),
+                        requireNumber(),
+                    ],
+                    author: [requireValue()],
+                },
+            ],
+            describe: [
+                requireValue(),
+            ],
+        };
+
+        const result = validator.validate(testObj);
+        assert.isFalse(result.isSuccess);
+        assert.lengthOf(result.errors, 1);
+        assert.equal('data.1.id', result.errors[0].checkTarget);
     });
 });

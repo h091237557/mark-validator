@@ -8,6 +8,10 @@ function isBoolean(value) {
     return (typeof value === 'boolean');
 }
 
+function requireNumber(value) {
+    return typeof value === 'number';
+}
+
 function requireNumberInRange(value, min, max) {
     const field = value;
     if (typeof field !== 'number') {
@@ -26,4 +30,5 @@ validator.initValidate([
     requireValue,
     isBoolean,
     requireNumberInRange,
+    requireNumber,
 ]);

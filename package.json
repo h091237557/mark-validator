@@ -1,25 +1,24 @@
 {
   "name": "mark-lin-validator",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "",
-  "author": "Mark Lin <h091237557@gmail.com>",
+  "author": "",
   "main": "index.js",
   "directories": {
     "test": ""
   },
-   "keywords": [
+  "keywords": [
     "validator",
     "validation",
     "validate"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./node_modules/mocha/bin/mocha"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/h091237557/mark-validator.git"
   },
-  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/h091237557/mark-validator/issues"
